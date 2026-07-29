@@ -1,0 +1,78 @@
+.question-card {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 16px;
+  padding: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border: 1px solid #e5e7eb;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pillar-badge {
+  background: #1e40af;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.counter {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.question-text {
+  font-size: 1.8rem;
+  margin: 0 0 30px;
+  color: #111827;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.answer-input {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  font-size: 1.1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.answer-input:focus {
+  outline: none;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.char-count {
+  text-align: right;
+  color: #9ca3af;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .question-card {
+    padding: 30px 20px;
+  }
+
+  .question-text {
+    font-size: 1.3rem;
+  }
+
+  .answer-input {
+    min-height: 150px;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/bin:$PATH exec npm run dev"],
+      "port": 5173,
+      "cwd": "/Users/a2019/Documents/casa-abierta-app"
+    }
+  ]
+}
