@@ -21,7 +21,7 @@
 
 .progress-fill {
   height: 100%;
-  background: #1e40af;
+  background: #7c3aed;
   transition: width 0.3s ease;
 }
 
@@ -47,14 +47,14 @@
 }
 
 .btn-primary {
-  background: #1e40af;
+  background: #7c3aed;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1e3a8a;
+  background: #6d28d9;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 
 .btn-primary.disabled,
@@ -65,8 +65,8 @@
 
 .btn-secondary {
   background: white;
-  color: #1e40af;
-  border: 2px solid #1e40af;
+  color: #7c3aed;
+  border: 2px solid #7c3aed;
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -79,7 +79,7 @@
 
 .loading-spinner {
   font-size: 1.5rem;
-  color: #1e40af;
+  color: #7c3aed;
   text-align: center;
 }
 

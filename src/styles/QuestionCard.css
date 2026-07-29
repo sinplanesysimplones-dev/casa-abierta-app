@@ -16,7 +16,7 @@
 }
 
 .pillar-badge {
-  background: #1e40af;
+  background: #7c3aed;
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -51,8 +51,8 @@
 
 .answer-input:focus {
   outline: none;
-  border-color: #1e40af;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .char-count {

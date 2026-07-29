@@ -25,21 +25,21 @@
 .logo-icon {
   width: 28px;
   height: 28px;
-  color: #1e40af;
+  color: #7c3aed;
   flex-shrink: 0;
 }
 
 .logo-text {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1e40af;
+  color: #7c3aed;
   letter-spacing: -0.5px;
 }
 
 .navbar-brand:hover .logo-text {
-  color: #1e3a8a;
+  color: #6d28d9;
 }
 
 .navbar-brand:hover .logo-icon {
-  color: #1e3a8a;
+  color: #6d28d9;
 }
