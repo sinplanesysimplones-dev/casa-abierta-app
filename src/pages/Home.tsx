@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="home-content">
-        <h1>Descubre tu Arquetipo</h1>
+        <h1>🎯 SONAR 🎯 - Descubre tu Arquetipo</h1>
         <p className="tagline">Orientación profesional a través del marco Ikigai</p>
 
         <div className="mode-selector">
