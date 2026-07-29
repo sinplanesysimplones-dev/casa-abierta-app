@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { IncomingMessage, ServerResponse } from 'http'
 
 interface ClassificationRequest {
   love: string
@@ -13,6 +13,9 @@ interface ClassificationResponse {
   arquetipo: string
   frase_sticker: string
 }
+
+type VercelRequest = IncomingMessage & { body?: any; query?: any }
+type VercelResponse = ServerResponse & { status?: (code: number) => VercelResponse; json?: (data: any) => void }
 
 const SYSTEM_PROMPT = `Eres un analista de talento que aplica el marco Ikigai (pasión, vocación, profesión, misión) para dar orientación profesional rápida y honesta.
 
