@@ -70,10 +70,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   console.log('API key found in environment')
 
   try {
+    console.log('Request body:', req.body)
     const { love, good, needed, paid } = req.body as ClassificationRequest
+    console.log('Parsed values:', { love, good, needed, paid })
 
     // Validar que todas las respuestas estén presentes
     if (!love || !good || !needed || !paid) {
+      console.log('Missing required fields')
       res.status(400).json({ error: 'Faltan respuestas requeridas' })
       return
     }
@@ -86,6 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 - Por lo que me pueden PAGAR: ${paid}`
 
     // Llamar a Claude API desde el servidor
+    console.log('Calling Claude API...')
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -105,6 +109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         ]
       })
     })
+    console.log('Claude API response status:', response.status)
 
     if (!response.ok) {
       const error = await response.json() as any
