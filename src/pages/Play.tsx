@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard'
 import ResultCard from '../components/ResultCard'
@@ -8,25 +10,25 @@ const QUESTIONS: QuestionData[] = [
   {
     key: 'love',
     question: '¿Qué harías gratis aunque no te pagaran?',
-    placeholder: 'Escribe tu respuesta...',
+    placeholder: 'Graba tu respuesta...',
     ikigaiPillar: 'Lo que AMO'
   },
   {
     key: 'good',
     question: '¿Qué se te hace fácil, pero notas que a otros les cuesta?',
-    placeholder: 'Escribe tu respuesta...',
+    placeholder: 'Graba tu respuesta...',
     ikigaiPillar: 'En lo que soy BUENO'
   },
   {
     key: 'needed',
     question: '¿Para qué te busca la gente cuando necesita ayuda?',
-    placeholder: 'Escribe tu respuesta...',
+    placeholder: 'Graba tu respuesta...',
     ikigaiPillar: 'Lo que el MUNDO NECESITA'
   },
   {
     key: 'paid',
     question: 'Si alguien te pagara hoy mismo por algo que sabes hacer, ¿qué sería?',
-    placeholder: 'Escribe tu respuesta...',
+    placeholder: 'Graba tu respuesta...',
     ikigaiPillar: 'Lo que me pueden PAGAR'
   }
 ]
@@ -55,12 +57,6 @@ export default function Play() {
       setCurrentQuestion(currentQuestion + 1)
     } else {
       await submitAnswers()
-    }
-  }
-
-  const handlePrev = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1)
     }
   }
 
@@ -94,12 +90,16 @@ export default function Play() {
   if (loading) {
     return (
       <div className="play-container loading">
-        <div className="loading-spinner">Analizando tus respuestas...</div>
+        <div className="loading-spinner">
+          <div className="spinner-animation">✨</div>
+          <p>Analizando tus respuestas...</p>
+        </div>
       </div>
     )
   }
 
   const question = QUESTIONS[currentQuestion]
+  const hasAnswer = answers[question.key].trim().length > 0
 
   return (
     <div className="play-container">
@@ -120,19 +120,11 @@ export default function Play() {
 
       <div className="button-group">
         <button
-          className="btn btn-secondary"
-          onClick={handlePrev}
-          disabled={currentQuestion === 0}
-        >
-          ← Anterior
-        </button>
-
-        <button
-          className={`btn btn-primary ${!answers[question.key].trim() ? 'disabled' : ''}`}
+          className={`btn btn-primary ${!hasAnswer ? 'disabled' : ''}`}
           onClick={handleNext}
-          disabled={!answers[question.key].trim()}
+          disabled={!hasAnswer}
         >
-          {currentQuestion === QUESTIONS.length - 1 ? 'Ver Resultado' : 'Siguiente →'}
+          {currentQuestion === QUESTIONS.length - 1 ? '🚀 Ver Mi Arquetipo' : 'Siguiente Pregunta →'}
         </button>
       </div>
     </div>

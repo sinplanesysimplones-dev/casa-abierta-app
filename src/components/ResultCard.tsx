@@ -1,6 +1,9 @@
+'use client'
+
 import { useRef } from 'react'
 import type { IkigaiResponse } from '../types'
 import { downloadResultAsImage } from '../utils/download'
+import { getArchetype } from '../config/archetypes'
 
 interface Props {
   response: IkigaiResponse
@@ -9,6 +12,7 @@ interface Props {
 
 export default function ResultCard({ response, onRestart }: Props) {
   const resultRef = useRef<HTMLDivElement>(null)
+  const archetype = getArchetype(response.result.arquetipo)
 
   const handleDownload = async () => {
     if (resultRef.current) {
@@ -17,13 +21,11 @@ export default function ResultCard({ response, onRestart }: Props) {
   }
 
   const handleSave = async () => {
-    // Guardar en localStorage para sincronizar con monitor
     const stored = localStorage.getItem('ikigai_responses') || '[]'
     const responses = JSON.parse(stored)
     responses.push(response)
     localStorage.setItem('ikigai_responses', JSON.stringify(responses))
 
-    // Disparar evento para que el monitor se actualice
     window.dispatchEvent(new Event('storage'))
 
     alert('¡Resultado guardado! Aparecerá en el mural.')
@@ -31,15 +33,24 @@ export default function ResultCard({ response, onRestart }: Props) {
 
   return (
     <div className="result-container">
-      <div className="result-content" ref={resultRef}>
+      <div
+        className="result-content"
+        ref={resultRef}
+        style={archetype ? { borderColor: archetype.color } : {}}
+      >
         <div className="result-header">
           <h1>Tu Arquetipo Profesional</h1>
         </div>
 
         <div className="archetype-display">
-          <div className="animal-emoji">🦁</div>
+          <div className="animal-emoji" style={archetype ? { color: archetype.color } : {}}>
+            {archetype?.emoji}
+          </div>
           <div className="archetype-info">
-            <h2>{response.result.arquetipo}</h2>
+            <h2 style={archetype ? { color: archetype.color } : {}}>
+              {response.result.arquetipo}
+            </h2>
+            <p className="archetype-subtitle">{archetype?.description}</p>
           </div>
         </div>
 
@@ -68,19 +79,19 @@ export default function ResultCard({ response, onRestart }: Props) {
           <h3>Tu Marco Ikigai</h3>
           <div className="breakdown-grid">
             <div className="breakdown-item">
-              <span className="label">Amo</span>
+              <span className="label">❤️ Amo</span>
               <p>{response.answers.love}</p>
             </div>
             <div className="breakdown-item">
-              <span className="label">Soy Bueno</span>
+              <span className="label">⭐ Soy Bueno</span>
               <p>{response.answers.good}</p>
             </div>
             <div className="breakdown-item">
-              <span className="label">Se Necesita</span>
+              <span className="label">🌍 Se Necesita</span>
               <p>{response.answers.needed}</p>
             </div>
             <div className="breakdown-item">
-              <span className="label">Me Pagan</span>
+              <span className="label">💰 Me Pagan</span>
               <p>{response.answers.paid}</p>
             </div>
           </div>
