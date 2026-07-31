@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import type { IkigaiResponse } from '../types'
 import { downloadResultAsImage } from '../utils/download'
-import '../styles/ResultCard.css'
 
 interface Props {
   response: IkigaiResponse

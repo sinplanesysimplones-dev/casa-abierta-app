@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import '../styles/Home.css'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -9,11 +8,11 @@ export default function Home() {
         <p className="tagline">Orientación profesional a través del marco Ikigai</p>
 
         <div className="mode-selector">
-          <Link to="/jugar" className="btn btn-large btn-primary">
+          <Link href="/jugar" className="btn btn-large btn-primary">
             🎯 Descubrir mi Arquetipo
           </Link>
 
-          <Link to="/monitor" className="btn btn-large btn-secondary">
+          <Link href="/monitor" className="btn btn-large btn-secondary">
             📺 Ver Mural (Monitor)
           </Link>
         </div>

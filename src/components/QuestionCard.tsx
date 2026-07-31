@@ -1,5 +1,4 @@
 import type { QuestionData } from '../types'
-import '../styles/QuestionCard.css'
 
 interface Props {
   question: QuestionData

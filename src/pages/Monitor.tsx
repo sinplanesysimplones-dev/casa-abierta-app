@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import type { IkigaiResponse } from '../types'
-import '../styles/Monitor.css'
 
 export default function Monitor() {
   const [responses, setResponses] = useState<IkigaiResponse[]>([])

@@ -3,7 +3,6 @@ import QuestionCard from '../components/QuestionCard'
 import ResultCard from '../components/ResultCard'
 import type { IkigaiResponse, QuestionData } from '../types'
 import { classifyWithClaude } from '../utils/api'
-import '../styles/Play.css'
 
 const QUESTIONS: QuestionData[] = [
   {

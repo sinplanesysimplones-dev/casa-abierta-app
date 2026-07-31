@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom'
-import '../styles/Navbar.css'
+import Link from 'next/link'
 
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand">
+      <Link href="/" className="navbar-brand">
         <div className="logo-sonar">
           <svg viewBox="0 0 32 32" className="logo-icon">
             <circle cx="16" cy="16" r="3" fill="currentColor" />
