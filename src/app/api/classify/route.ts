@@ -12,8 +12,6 @@ interface ClassificationResponse {
   frase_sticker: string
 }
 
-type ResponseData = ClassificationResponse | { error: string }
-
 const SYSTEM_PROMPT = `Eres un analista de talento que aplica el marco Ikigai (pasión, vocación, profesión, misión) para dar orientación profesional rápida y honesta.
 
 Recibirás las respuestas de una persona a 4 preguntas:

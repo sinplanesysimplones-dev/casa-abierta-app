@@ -1,7 +1,7 @@
 {
   "version": 3,
   "pages404": true,
-  "appType": "pages",
+  "appType": "hybrid",
   "caseSensitive": false,
   "basePath": "",
   "redirects": [
@@ -24,28 +24,34 @@
   "dynamicRoutes": [],
   "staticRoutes": [
     {
-      "page": "/",
-      "regex": "^/(?:/)?$",
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/(?:/)?$"
+      "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/api/clasificar",
-      "regex": "^/api/clasificar(?:/)?$",
+      "page": "/api/classify",
+      "regex": "^/api/classify(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/api/clasificar(?:/)?$"
+      "namedRegex": "^/api/classify(?:/)?$"
     },
     {
-      "page": "/jugar",
-      "regex": "^/jugar(?:/)?$",
+      "page": "/Home",
+      "regex": "^/Home(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/jugar(?:/)?$"
+      "namedRegex": "^/Home(?:/)?$"
     },
     {
-      "page": "/monitor",
-      "regex": "^/monitor(?:/)?$",
+      "page": "/Monitor",
+      "regex": "^/Monitor(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/monitor(?:/)?$"
+      "namedRegex": "^/Monitor(?:/)?$"
+    },
+    {
+      "page": "/Play",
+      "regex": "^/Play(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/Play(?:/)?$"
     }
   ],
   "dataRoutes": [],

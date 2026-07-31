@@ -1,0 +1,81 @@
+/* [project]/src/styles/QuestionCard.css [client] (css) */
+.question-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  padding: 50px;
+  box-shadow: 0 4px 6px #00000012;
+}
+
+.question-header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  display: flex;
+}
+
+.pillar-badge {
+  color: #fff;
+  background: #7c3aed;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.counter {
+  color: #9ca3af;
+  font-size: .9rem;
+}
+
+.question-text {
+  color: #111827;
+  margin: 0 0 30px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.answer-input {
+  resize: vertical;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  transition: border-color .2s;
+}
+
+.answer-input:focus {
+  border-color: #7c3aed;
+  outline: none;
+  box-shadow: 0 0 0 3px #7c3aed1a;
+}
+
+.char-count {
+  text-align: right;
+  color: #9ca3af;
+  margin-top: 10px;
+  font-size: .9rem;
+}
+
+@media (max-width: 600px) {
+  .question-card {
+    padding: 30px 20px;
+  }
+
+  .question-text {
+    font-size: 1.3rem;
+  }
+
+  .answer-input {
+    min-height: 150px;
+    font-size: 1rem;
+  }
+}
+
+/*# sourceMappingURL=src_styles_QuestionCard_css_0uu1l2n._.single.css.map*/

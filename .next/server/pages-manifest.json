@@ -1,10 +1,9 @@
 {
-  "/": "pages/index.html",
+  "/Home": "pages/Home.html",
+  "/Monitor": "pages/Monitor.html",
+  "/Play": "pages/Play.html",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/api/clasificar": "pages/api/clasificar.js",
-  "/jugar": "pages/jugar.html",
-  "/monitor": "pages/monitor.html",
   "/404": "pages/404.html"
 }
