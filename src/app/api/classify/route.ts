@@ -99,10 +99,11 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json() as any
-    const content = data.content[0].text
+    const content = data.content[0].text as string
+    const cleanContent = content.replace(/^```(?:json)?\s*/, '').replace(/```\s*$/, '').trim()
 
     // Parsear el JSON de respuesta
-    const result: ClassificationResponse = JSON.parse(content)
+    const result: ClassificationResponse = JSON.parse(cleanContent)
 
     return Response.json(result, { status: 200 })
   } catch (error) {
