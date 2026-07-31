@@ -100,16 +100,21 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  console.log('Handler called with method:', req.method)
+
   // Solo POST
   if (req.method !== 'POST') {
+    console.log('Method not allowed:', req.method)
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   // Validar API key en servidor
   const apiKey = process.env.CLAUDE_API_KEY
   if (!apiKey) {
+    console.log('API key not found in environment')
     return res.status(500).json({ error: 'API key no configurada en servidor' })
   }
+  console.log('API key found in environment')
 
   try {
     const { love, good, needed, paid } = req.body as ClassificationRequest
