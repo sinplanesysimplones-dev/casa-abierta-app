@@ -1,9 +1,11 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { ref, push, set } from 'firebase/database'
 import type { IkigaiResponse } from '../types'
 import { downloadResultAsImage } from '../utils/download'
 import { getArchetype } from '../config/archetypes'
+import { db } from '../config/firebase'
 
 interface Props {
   response: IkigaiResponse
@@ -13,6 +15,8 @@ interface Props {
 export default function ResultCard({ response, onRestart }: Props) {
   const resultRef = useRef<HTMLDivElement>(null)
   const archetype = getArchetype(response.result.arquetipo)
+  const [isSaving, setIsSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   const handleDownload = async () => {
     if (resultRef.current) {
@@ -21,14 +25,17 @@ export default function ResultCard({ response, onRestart }: Props) {
   }
 
   const handleSave = async () => {
-    const stored = localStorage.getItem('ikigai_responses') || '[]'
-    const responses = JSON.parse(stored)
-    responses.push(response)
-    localStorage.setItem('ikigai_responses', JSON.stringify(responses))
-
-    window.dispatchEvent(new Event('storage'))
-
-    alert('¡Resultado guardado! Aparecerá en el mural.')
+    setIsSaving(true)
+    try {
+      const responsesRef = ref(db, 'responses')
+      await set(push(responsesRef), response)
+      setSaved(true)
+    } catch (error) {
+      console.error('Error guardando en el mural:', error)
+      alert('No se pudo guardar en el mural. Intenta de nuevo.')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -109,8 +116,9 @@ export default function ResultCard({ response, onRestart }: Props) {
         <button
           className="btn btn-success"
           onClick={handleSave}
+          disabled={isSaving || saved}
         >
-          💾 Guardar en Mural
+          {saved ? '✓ Guardado en Mural' : isSaving ? '⏳ Guardando...' : '💾 Guardar en Mural'}
         </button>
 
         <button

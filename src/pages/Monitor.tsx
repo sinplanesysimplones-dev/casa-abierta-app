@@ -1,24 +1,24 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { ref, onValue } from 'firebase/database'
 import type { IkigaiResponse } from '../types'
 import { getArchetype } from '../config/archetypes'
+import { db } from '../config/firebase'
 
 export default function Monitor() {
   const [responses, setResponses] = useState<IkigaiResponse[]>([])
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      const stored = localStorage.getItem('ikigai_responses')
-      if (stored) {
-        setResponses(JSON.parse(stored))
-      }
-    }
+    const responsesRef = ref(db, 'responses')
+    const unsubscribe = onValue(responsesRef, (snapshot) => {
+      const data = snapshot.val()
+      const list: IkigaiResponse[] = data ? Object.values(data) : []
+      list.sort((a, b) => b.timestamp - a.timestamp)
+      setResponses(list)
+    })
 
-    window.addEventListener('storage', handleStorageChange)
-    handleStorageChange()
-
-    return () => window.removeEventListener('storage', handleStorageChange)
+    return () => unsubscribe()
   }, [])
 
   const archetypeCounts = responses.reduce(
