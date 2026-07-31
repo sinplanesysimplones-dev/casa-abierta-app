@@ -70,8 +70,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   console.log('API key found in environment')
 
   try {
-    console.log('Request body:', req.body)
-    const { love, good, needed, paid } = req.body as ClassificationRequest
+    let body = req.body
+
+    // Si el body es un string, parsearlo
+    if (typeof body === 'string') {
+      console.log('Parsing JSON body:', body)
+      body = JSON.parse(body)
+    }
+
+    console.log('Parsed body:', body)
+    const { love, good, needed, paid } = body as ClassificationRequest
     console.log('Parsed values:', { love, good, needed, paid })
 
     // Validar que todas las respuestas estén presentes
