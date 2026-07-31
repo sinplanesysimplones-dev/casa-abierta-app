@@ -15,7 +15,7 @@ export async function classifyWithClaude(answers: {
 }): Promise<ClassificationResult> {
   try {
     // Llamar al backend seguro en lugar de a Claude directamente
-    const endpoint = API_BASE_URL ? `${API_BASE_URL}/api/clasificar` : '/api/clasificar'
+    const endpoint = API_BASE_URL ? `${API_BASE_URL}/api/classify` : '/api/classify'
 
     const response = await fetch(endpoint, {
       method: 'POST',
