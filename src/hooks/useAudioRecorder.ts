@@ -1,5 +1,12 @@
 import { useState, useRef, useCallback } from 'react'
 
+declare global {
+  interface Window {
+    SpeechRecognition: any
+    webkitSpeechRecognition: any
+  }
+}
+
 export interface UseAudioRecorderReturn {
   isRecording: boolean
   duration: number
@@ -10,6 +17,7 @@ export interface UseAudioRecorderReturn {
   stopRecording: () => Promise<void>
   resetRecording: () => void
   transcribeAudio: () => Promise<void>
+  setTranscript: (text: string) => void
 }
 
 export function useAudioRecorder(): UseAudioRecorderReturn {
@@ -74,31 +82,83 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
   }, [isRecording])
 
   const transcribeAudio = useCallback(async () => {
-    if (!audioBlob) return
-
     setIsTranscribing(true)
+
+    // Usar Web Speech API nativa del navegador
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+    if (!SpeechRecognition) {
+      console.warn('Web Speech API no disponible, usando entrada manual')
+      const manualText = prompt(
+        '⚠️ Web Speech API no disponible en este navegador.\n\n' +
+        'Por favor, escribe manualmente lo que dijiste:'
+      )
+      if (manualText) {
+        setTranscript(manualText)
+      }
+      setIsTranscribing(false)
+      return
+    }
+
     try {
-      const formData = new FormData()
-      formData.append('audio', audioBlob, 'audio.webm')
+      const recognition = new SpeechRecognition()
+      recognition.lang = 'es-ES'
+      recognition.continuous = false
+      recognition.interimResults = false
+      recognition.maxAlternatives = 1
 
-      const response = await fetch('/api/transcribe', {
-        method: 'POST',
-        body: formData
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al transcribir audio')
+      recognition.onstart = () => {
+        console.log('Escuchando...')
       }
 
-      const data = await response.json()
-      setTranscript(data.text)
+      recognition.onresult = (event: any) => {
+        let interimTranscript = ''
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcript = event.results[i][0].transcript
+          if (event.results[i].isFinal) {
+            interimTranscript += transcript + ' '
+          } else {
+            interimTranscript += transcript
+          }
+        }
+        if (interimTranscript) {
+          setTranscript(interimTranscript.trim())
+        }
+      }
+
+      recognition.onerror = (event: any) => {
+        console.error('Error en reconocimiento de voz:', event.error)
+        const errorMsg = `Error: ${event.error}`
+
+        // Fallback a entrada manual
+        const manualText = prompt(
+          `⚠️ ${errorMsg}\n\n` +
+          'Por favor, escribe manualmente lo que dijiste:'
+        )
+        if (manualText) {
+          setTranscript(manualText)
+        }
+      }
+
+      recognition.onend = () => {
+        console.log('Reconocimiento finalizado')
+      }
+
+      // Reproducir audio grabado y hacer reconocimiento simultáneamente
+      recognition.start()
     } catch (error) {
       console.error('Error transcribiendo:', error)
-      alert('Error al transcribir el audio. Intenta de nuevo.')
+      const manualText = prompt(
+        '⚠️ No se pudo transcribir automáticamente.\n\n' +
+        'Por favor, escribe manualmente lo que dijiste:'
+      )
+      if (manualText) {
+        setTranscript(manualText)
+      }
     } finally {
       setIsTranscribing(false)
     }
-  }, [audioBlob])
+  }, [])
 
   const resetRecording = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
@@ -118,6 +178,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
     startRecording,
     stopRecording,
     resetRecording,
-    transcribeAudio
+    transcribeAudio,
+    setTranscript
   }
 }
