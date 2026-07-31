@@ -3,11 +3,12 @@
     "target": "es2023",
     "lib": ["es2023"],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "noImplicitAny": false
   },
   "include": ["api/**/*.ts"]
