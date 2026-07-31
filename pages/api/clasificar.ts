@@ -12,16 +12,9 @@ interface ClassificationResponse {
   frase_sticker: string
 }
 
-interface VercelRequest {
-  method?: string
-  body?: ClassificationRequest
-  query?: Record<string, string>
-}
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface VercelResponse {
-  status: (code: number) => VercelResponse
-  json: (data: any) => void
-}
+type ResponseData = ClassificationResponse | { error: string }
 
 const SYSTEM_PROMPT = `Eres un analista de talento que aplica el marco Ikigai (pasión, vocación, profesión, misión) para dar orientación profesional rápida y honesta.
 
@@ -50,7 +43,10 @@ Genera un JSON con esta estructura exacta, sin texto adicional antes o después:
 
 Sé cálido pero directo. No uses frases genéricas tipo "puedes lograr lo que te propongas" — sé específico basado en lo que la persona realmente dijo. Responde SOLO con el JSON, sin markdown, sin backticks, sin texto adicional.`
 
-export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>
+) {
   console.log('Handler called with method:', req.method)
 
   // Solo POST
