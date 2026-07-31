@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/clasificar",
+      "destination": "/api/clasificar.ts"
+    }
+  ],
+  "functions": {
+    "api/clasificar.ts": {
+      "maxDuration": 10
+    }
+  }
+}
