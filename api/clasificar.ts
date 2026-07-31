@@ -1,5 +1,3 @@
-import type { IncomingMessage, ServerResponse } from 'http'
-
 interface ClassificationRequest {
   love: string
   good: string
@@ -14,8 +12,16 @@ interface ClassificationResponse {
   frase_sticker: string
 }
 
-type VercelRequest = IncomingMessage & { body?: any; query?: any }
-type VercelResponse = ServerResponse & { status?: (code: number) => VercelResponse; json?: (data: any) => void }
+interface VercelRequest {
+  method?: string
+  body?: ClassificationRequest
+  query?: Record<string, string>
+}
+
+interface VercelResponse {
+  status: (code: number) => VercelResponse
+  json: (data: any) => void
+}
 
 const SYSTEM_PROMPT = `Eres un analista de talento que aplica el marco Ikigai (pasión, vocación, profesión, misión) para dar orientación profesional rápida y honesta.
 
@@ -96,23 +102,22 @@ function detectArchetype(love: string, good: string, needed: string, paid: strin
   return Object.entries(scores).sort(([, a], [, b]) => b - a)[0][0]
 }
 
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
+export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   console.log('Handler called with method:', req.method)
 
   // Solo POST
   if (req.method !== 'POST') {
     console.log('Method not allowed:', req.method)
-    return res.status(405).json({ error: 'Method not allowed' })
+    res.status(405).json({ error: 'Method not allowed' })
+    return
   }
 
   // Validar API key en servidor
   const apiKey = process.env.CLAUDE_API_KEY
   if (!apiKey) {
     console.log('API key not found in environment')
-    return res.status(500).json({ error: 'API key no configurada en servidor' })
+    res.status(500).json({ error: 'API key no configurada en servidor' })
+    return
   }
   console.log('API key found in environment')
 
@@ -121,7 +126,8 @@ export default async function handler(
 
     // Validar que todas las respuestas estén presentes
     if (!love || !good || !needed || !paid) {
-      return res.status(400).json({ error: 'Faltan respuestas requeridas' })
+      res.status(400).json({ error: 'Faltan respuestas requeridas' })
+      return
     }
 
     // Crear el prompt con las respuestas
@@ -154,7 +160,8 @@ export default async function handler(
 
     if (!response.ok) {
       const error = await response.json()
-      return res.status(response.status).json({ error: error.message })
+      res.status(response.status).json({ error: error.message })
+      return
     }
 
     const data = await response.json()
@@ -163,11 +170,11 @@ export default async function handler(
     // Parsear el JSON de respuesta
     const result: ClassificationResponse = JSON.parse(content)
 
-    return res.status(200).json(result)
+    res.status(200).json(result)
+    return
   } catch (error) {
     console.error('Error clasificando:', error)
-    return res
-      .status(500)
-      .json({ error: error instanceof Error ? error.message : 'Error desconocido' })
+    res.status(500).json({ error: error instanceof Error ? error.message : 'Error desconocido' })
+    return
   }
 }
