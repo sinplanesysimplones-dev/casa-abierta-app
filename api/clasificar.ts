@@ -50,58 +50,6 @@ Genera un JSON con esta estructura exacta, sin texto adicional antes o después:
 
 Sé cálido pero directo. No uses frases genéricas tipo "puedes lograr lo que te propongas" — sé específico basado en lo que la persona realmente dijo. Responde SOLO con el JSON, sin markdown, sin backticks, sin texto adicional.`
 
-const MOCK_ARCHETYPES = {
-  'Búho': {
-    resumen_ikigai: 'Tu pasión por entender se convierte en tu misión: analizar y resolver lo que otros no ven.',
-    ideas: ['Consultoría en análisis de datos', 'Auditoría y validación de procesos', 'Investigación y desarrollo'],
-    arquetipo: 'Búho',
-    frase_sticker: 'Ves patrones donde otros ven caos'
-  },
-  'Zorro': {
-    resumen_ikigai: 'Conectas personas, historias e ideas para crear puentes entre mundos diferentes.',
-    ideas: ['Negociación y mediación', 'Comunicación corporativa', 'Ventas y relaciones estratégicas'],
-    arquetipo: 'Zorro',
-    frase_sticker: 'Abres puertas que otros ni ven'
-  },
-  'Guepardo': {
-    resumen_ikigai: 'Tu velocidad y precisión transforman visiones en resultados concretos y medibles.',
-    ideas: ['Gestión de proyectos de alto impacto', 'Emprendimiento y escalado', 'Operaciones de alto rendimiento'],
-    arquetipo: 'Guepardo',
-    frase_sticker: 'Llevas a cabo lo que otros imaginan'
-  },
-  'Abeja': {
-    resumen_ikigai: 'Transformas ideas en creaciones únicas que inspiran y generan valor genuino.',
-    ideas: ['Diseño y creatividad estratégica', 'Desarrollo de productos innovadores', 'Branding y experiencia'],
-    arquetipo: 'Abeja',
-    frase_sticker: 'Haces realidad lo que antes no existía'
-  },
-  'Tortuga': {
-    resumen_ikigai: 'Tu atención al detalle y consistencia garantiza que todo sea duradero y bien hecho.',
-    ideas: ['Control de calidad y excelencia', 'Gestión de operaciones estables', 'Mentoría y desarrollo de equipos'],
-    arquetipo: 'Tortuga',
-    frase_sticker: 'Tu consistencia construye imperios'
-  }
-}
-
-function detectArchetype(love: string, good: string, needed: string, paid: string): string {
-  const text = `${love} ${good} ${needed} ${paid}`.toLowerCase()
-
-  const arquetipos = {
-    'Búho': ['analizar', 'entender', 'investigar', 'resolver', 'detectar', 'problema', 'errores', 'datos', 'lógica', 'estrategia', 'complejidad', 'ideas'],
-    'Zorro': ['comunicar', 'conectar', 'gente', 'personas', 'vender', 'negociar', 'relación', 'red', 'ayudar', 'dialogar', 'influencia'],
-    'Guepardo': ['hacer', 'construir', 'actuar', 'rápido', 'ejecutar', 'lograr', 'resultados', 'presión', 'decidir', 'acción', 'velocidad'],
-    'Abeja': ['crear', 'diseñar', 'imaginar', 'innovar', 'original', 'distinto', 'arte', 'música', 'estética', 'visión', 'nuevas'],
-    'Tortuga': ['cuidar', 'organizar', 'perfeccionar', 'consistencia', 'detalle', 'calidad', 'bien', 'orden', 'precisión', 'equilibrio', 'estable']
-  }
-
-  const scores = {} as Record<string, number>
-  for (const [arch, keywords] of Object.entries(arquetipos)) {
-    scores[arch] = keywords.filter(kw => text.includes(kw)).length
-  }
-
-  return Object.entries(scores).sort(([, a], [, b]) => b - a)[0][0]
-}
-
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   console.log('Handler called with method:', req.method)
 
@@ -159,12 +107,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     })
 
     if (!response.ok) {
-      const error = await response.json()
+      const error = await response.json() as any
       res.status(response.status).json({ error: error.message })
       return
     }
 
-    const data = await response.json()
+    const data = await response.json() as any
     const content = data.content[0].text
 
     // Parsear el JSON de respuesta
